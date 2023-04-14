@@ -37,36 +37,20 @@ require "../../app/auth/checkIsNotConnected.php";
 </header>
 
 <?php
-require "../../app/config/Database.php";
+require "../../app/config/database.php";
 require "../../app/Models/User.php";
 
-$userModel = new User();
-$users = $userModel->getAll();
+$userModel = new User($pdo);
+$user = $userModel->getOne($_GET['id']);
 ?>
 
 <div class="container">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Email</th>
-            <th scope="col">Crée le</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($users as $user) : ?>
-            <tr>
-                <th scope="row"><?= $user['id'] ?></th>
-                <td><?= $user['firstname'] ?></td>
-                <td><?= $user['lastname'] ?></td>
-                <td><?= $user['email'] ?></td>
-                <td><?= $user['created_at'] ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
+    <h1><?= $user['firstname'] ?> <?= $user['lastname'] ?></h1>
+    <ul>
+        <li>Email: <?= $user['email'] ?></li>
+        <li>Role: <?= $user['label'] ?></li>
+        <li>Créé le: <?= $user['created_at'] ?></li>
+    </ul>
 </div>
 </body>
 </html>
