@@ -42,9 +42,16 @@ require "../../app/Models/User.php";
 
 $userModel = new User();
 $users = $userModel->getAll();
+
+if (!empty($_POST)) {
+    $userModel->delete($_POST['user_id']);
+
+    header('location: /pages/admin/users.php');
+}
 ?>
 
-<div class="container">
+<div class="container pt-2">
+    <a href="/pages/admin/create-user.php" class="btn btn-primary">Créer un utilisateur</a>
     <table class="table">
         <thead>
         <tr>
@@ -53,6 +60,7 @@ $users = $userModel->getAll();
             <th scope="col">Nom</th>
             <th scope="col">Email</th>
             <th scope="col">Crée le</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -63,6 +71,12 @@ $users = $userModel->getAll();
                 <td><?= $user['lastname'] ?></td>
                 <td><?= $user['email'] ?></td>
                 <td><?= $user['created_at'] ?></td>
+                <td>
+                    <form action="" method="post">
+                        <input type="number" value="<?= $user['id'] ?>" name="user_id" hidden>
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>

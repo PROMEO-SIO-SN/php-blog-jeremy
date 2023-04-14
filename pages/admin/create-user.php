@@ -39,8 +39,12 @@ require "../../app/auth/checkIsNotConnected.php";
 <?php
 require "../../app/config/Database.php";
 require "../../app/Models/User.php";
+require "../../app/Models/Role.php";
 
-if (isset($_POST)) {
+$roleModel = new Role();
+$roles = $roleModel->getAll();
+
+if (!empty($_POST)) {
     $userModel = new User();
     $users = $userModel->create(
         $_POST['firstname'],
